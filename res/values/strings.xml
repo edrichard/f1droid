@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">f1droid</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="lesCircuits">Les circuits</string>
+	<string name="lesPilotes">Les pilotes</string>
+	
+	<string name="lnFnPilote">Nom et Prenom : </string>
+	<string name="dateOfBirthPilote">Date de naissance : </string>
+	<string name="nationalityPilote">Nationalité :</string>
+	
+	<string name="nameCircuit">Nom : </string>
+	<string name="locacityCircuit">Lieu : </string>
+	<string name="countryCircuit">Pays :</string>
+	
+	<string name="chargement">Chargement, un instant SVP!</string>
+    
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ws_circuit_realease">http://ergast.com/api/f1/circuits.json</string>
+    <string name="ws_circuit_debug">http://ergast.com/api/f1/circuits.json</string>
+    <string name="ws_pilote_realease">http://ergast.com/api/f1/drivers.json</string>
+    <string name="ws_pilote_debug">http://ergast.com/api/f1/drivers.json</string>
+</resources>
