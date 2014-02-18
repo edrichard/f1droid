@@ -120,7 +120,7 @@ public class PiloteActivity extends Activity {
 					p.setFamilyName(familyName);
 					p.setDateOfBirth(
 							DateUtils.formatLocalISOStringToDateTime(
-									dateOfBirth));
+									dateOfBirth + "T00:00:00Z"));
 					p.setNationality(nationality);
 					
 					listPilotes.add(p);
