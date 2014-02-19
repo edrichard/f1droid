@@ -38,7 +38,7 @@ public class DAOPilote {
 				PILOT_URL + " TEXT NOT NULL, " +
 				PILOT_NAME_GIVEN + " VARCHAR(255) NOT NULL, " +
 				PILOT_NAME_FAMILY + " VARCHAR(3,4) NOT NULL, " +
-				PILOT_DATE_OF_BIRTH + " DATETIME NOT NULL, " +
+				PILOT_DATE_OF_BIRTH + " DATETIME, " +
 				PILOT_NATIONALITY + " VARCHAR(255) NOT NULL " +
 				")";
 	}
@@ -50,7 +50,7 @@ public class DAOPilote {
 	public void addPilote(Pilote pilote, Context ctx) {
 		ContentValues item = new ContentValues();
 		item.put(PILOT_DATE_OF_BIRTH, 
-				DateUtils.formatTimeToString(
+				DateUtils.formatDateTimeToString(
 						pilote.getDateOfBirth(), ctx));
 		item.put(PILOT_ID, pilote.getId());
 		item.put(PILOT_NAME_FAMILY, pilote.getFamilyName());

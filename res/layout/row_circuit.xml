@@ -3,20 +3,34 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical" >
+
     <TextView
-    	android:id="@+id/row_tv_fn"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentLeft="true"
-    	android:layout_alignParentRight="true"
-    	android:text="First"
-    	android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:id="@+id/row_tv_fn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:text="@string/rowFirst"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <TextView
-    	android:id="@+id/row_tv_ln"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentRight="true"
-    	android:layout_below="@+id/row_tv_fn"
-    	android:text="Last"
-    	android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/row_tv_ln"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/row_tv_fn"
+        android:layout_marginRight="42dp"
+        android:text="@string/rowSecond"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/row_tv_ln"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/arrow" />
+
 </RelativeLayout>

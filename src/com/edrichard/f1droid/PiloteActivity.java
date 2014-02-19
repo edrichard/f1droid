@@ -32,7 +32,7 @@ public class PiloteActivity extends Activity {
 
 	ArrayList<Pilote> listPilotes = new ArrayList<Pilote>();
 	PiloteAdapter adapter = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -119,8 +119,7 @@ public class PiloteActivity extends Activity {
 					p.setGivenName(givenName);
 					p.setFamilyName(familyName);
 					p.setDateOfBirth(
-							DateUtils.formatLocalISOStringToDateTime(
-									dateOfBirth + "T00:00:00Z"));
+							DateUtils.formatLocalISOStringToDateTime(dateOfBirth + "T00:00:00"));
 					p.setNationality(nationality);
 					
 					listPilotes.add(p);

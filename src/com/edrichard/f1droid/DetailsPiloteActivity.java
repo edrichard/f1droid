@@ -1,6 +1,7 @@
 package com.edrichard.f1droid;
 
 import com.edrichard.f1droid.model.Pilote;
+import com.edrichard.f1droid.util.DateUtils;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,10 +17,13 @@ public class DetailsPiloteActivity extends Activity {
 		
 		Pilote pilote = (Pilote) 
 				this.getIntent().getExtras().getSerializable("MON_PILOTE");
-		
+
 		TextView ln_fn_pilote = (TextView) this.findViewById(R.id.lnFnPilote);
 		ln_fn_pilote.setText(pilote.getFamilyName() + " " + pilote.getGivenName());
-		
+
+		TextView dateOfBirth_pilote = (TextView) this.findViewById(R.id.dateOfBirthPilote);
+		dateOfBirth_pilote.setText(DateUtils.formatDateTimeToString(pilote.getDateOfBirth(), this.getApplicationContext()));
+
 		TextView nationality_pilote = (TextView) this.findViewById(R.id.nationalityPilote);
 		nationality_pilote.setText(pilote.getNationality());
 	}

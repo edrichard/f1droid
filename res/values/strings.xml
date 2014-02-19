@@ -14,7 +14,11 @@
     <string name="nameCircuit">Nom : </string>
     <string name="locacityCircuit">Lieu : </string>
     <string name="countryCircuit">Pays :</string>
+    <string name="btWikiCircuit">Détails circuit</string>
     
     <string name="chargement">Chargement, un instant SVP!</string>
+    
+    <string name="rowFirst">Nom circuit</string>
+    <string name="rowSecond">Pays</string>
     
 </resources>
