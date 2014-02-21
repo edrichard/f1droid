@@ -9,8 +9,7 @@
         android:id="@+id/splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/splash"
-        android:textAlignment="center" />
+        android:src="@drawable/splash" />
 
     <TextView
         android:id="@+id/textView1"
@@ -20,7 +19,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp"
         android:text="@string/chargement"
-        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/withe" />
 
