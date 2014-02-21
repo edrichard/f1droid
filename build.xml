@@ -14,6 +14,15 @@
         <delete dir="${path.report}" />
     </target>
     
+    <!-- DOCUMENTATION -->
+    <target name="doc" description="create docummentation">
+        <delete dir="${path.docummentation}" />
+        <mkdir dir="${path.docummentation}" />
+        <javadoc sourcepath="${path.source}" destdir="${path.docummentation}">
+            <classpath refid="classpath.test" />
+        </javadoc>
+    </target>
+    
     <!-- PMD -->
     <path id="pmd.classpath">
         <pathelement location="${build}" />
@@ -36,15 +45,16 @@
     </target>
 
     <!-- CHECKSTYLE -->
-    <target name="checkstyle">
+    <target name="checkstyle" description="checkstyle">
         <mkdir dir="${path.report}" />
-        <taskdef resource="checkstyletask.properties" classpath="${path.libs}/checkstyle-5.7-all.jar" />
-        <checkstyle config="${path.libs}/sun_checks.xml" failOnViolation="false">
+        <checkstyle config="libs/checkstyle/sun_checks.xml"
+            failOnViolation="false">
             <fileset dir="${path.source}" includes="**/*.java" />
+            <formatter type="plain" />
             <formatter type="xml" toFile="${path.report}/checkstyle_errors.xml" />
         </checkstyle>
     </target>
 
-    <target name="all" depends="clean, junit, pmd, checkstyle, jar, doc" />
+    <!-- <target name="all" depends="clean, junit, pmd, checkstyle, jar, doc" /> -->
 
 </project>
