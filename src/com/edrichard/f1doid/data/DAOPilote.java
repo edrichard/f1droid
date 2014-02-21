@@ -53,7 +53,7 @@ public class DAOPilote {
      * Return the schema of table 'pilot'.
      * @return table of pilot.
      */
-    public final String getSchema() {
+    public static String getSchema() {
         return "create table " + PILOT + " ("
                 + PILOT_ID + " VARCHAR(255) NOT NULL, "
                 + PILOT_URL + " TEXT NOT NULL, "
