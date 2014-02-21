@@ -1,15 +1,23 @@
 package com.edrichard.f1doid.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import org.joda.time.DateTime;
 
 import com.edrichard.f1droid.model.Pilote;
 import com.edrichard.f1droid.util.DateUtils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+@SuppressLint("SimpleDateFormat")
 public class DAOPilote {
 
 	/** Pilot table */
@@ -77,21 +85,28 @@ public class DAOPilote {
 		String orderBy = PILOT_NAME_GIVEN + " ASC";
 
 		Cursor c = db.query(PILOT, COL, null, null, null, null, orderBy);
-
+		
 		if (c.getCount()>0) {
 			c.moveToFirst();
 			Pilote itemPilote;
 			do {
+			    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("FR", "fr"));
+			    Date maDate = null;
+                try {
+                    maDate = dateFormat.parse(c.getString(c.getColumnIndex(PILOT_DATE_OF_BIRTH)));
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+			    DateTime dateTime = new DateTime(maDate);
+			    
 				itemPilote = new Pilote();
 				itemPilote.setId(c.getString(c.getColumnIndex(PILOT_ID)));
 				itemPilote.setGivenName(c.getString(c.getColumnIndex(PILOT_NAME_GIVEN)));
 				itemPilote.setFamilyName(c.getString(c.getColumnIndex(PILOT_NAME_FAMILY)));
 				itemPilote.setNationality(c.getString(c.getColumnIndex(PILOT_NATIONALITY)));
 				itemPilote.setUrl(c.getString(c.getColumnIndex(PILOT_URL)));
-				itemPilote.setDateOfBirth(
-						DateUtils.formatLocalISOStringToDateTime(
-								c.getString(c.getColumnIndex(PILOT_DATE_OF_BIRTH))));
-				
+				itemPilote.setDateOfBirth(dateTime);
 				pilotes.add(itemPilote);
 			} while (c.moveToNext());
 		}
