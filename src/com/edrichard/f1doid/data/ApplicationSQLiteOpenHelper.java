@@ -28,8 +28,8 @@ public class ApplicationSQLiteOpenHelper extends SQLiteOpenHelper {
 		return helper;
 	}
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
+	@Override 
+    public void onCreate(SQLiteDatabase db) {
 		//Create table Circuit
 		String CREATE_CIRCUIT = DAOCircuit.getSchema();
 		db.execSQL(CREATE_CIRCUIT);

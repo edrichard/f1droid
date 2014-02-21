@@ -2,24 +2,17 @@ package com.edrichard.f1droid;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-import org.joda.time.DateTime;
-
 import com.edrichard.f1droid.model.Pilote;
-import com.edrichard.f1droid.util.DateUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
 @SuppressLint("SimpleDateFormat")
 public class DetailsPiloteActivity extends Activity {
-
-	private static final Context ctx = null;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {

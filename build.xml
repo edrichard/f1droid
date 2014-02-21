@@ -16,7 +16,7 @@
     <!-- CLEAN -->
     <target name="clean" description="Remove intermediate files">
         <delete dir="${path.compile}" />
-        <delete dir="${path.documentation}" />
+        <delete dir="${path.docummentation}" />
         <delete dir="${path.report}" />
     </target>
     
@@ -60,6 +60,19 @@
         </checkstyle>
     </target>
 
+    <target name="test" description="Playing the test">
+        <mkdir dir="${path.test}" />
+        <junit printsummary="yes" fork="yes" haltonerror="no" haltonfailure="no">
+            <classpath refid="classpath.test" />
+            <formatter type="xml" />
+            <batchtest fork="yes" todir="${path.test}">
+                <fileset dir="${path.source}">
+                    <include name="**/Test*.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    
     <target name="all" depends="clean, pmd, checkstyle, doc" />
 
 </project>
