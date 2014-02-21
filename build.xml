@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="f1droid" default="apk">
 
-    <property name="path.compile" value="./bin" />
-    <property name="path.source" value="./src" />
-    <property name="path.documentation" value="./doc" />
-    <property name="path.report" value="./rep" />
-    <property name="path.libs" value="./libs" />
+    <property name="path.compile" location="bin" />
+    <property name="path.source" location="src" />
+    <property name="path.docummentation" location="doc" />
+    <property name="path.report" location="rep" />
+    <property name="path.test" location="test" />
+    
+    <path id="classpath.test">
+        <pathelement location="${path.compile}" />
+        <pathelement location="libs/junit-4.11.jar" />
+        <pathelement location="libs/hamcrest-core-1.3.jar" />
+    </path>
     
     <!-- CLEAN -->
     <target name="clean" description="Remove intermediate files">
@@ -16,7 +22,6 @@
     
     <!-- DOCUMENTATION -->
     <target name="doc" description="create docummentation">
-        <delete dir="${path.docummentation}" />
         <mkdir dir="${path.docummentation}" />
         <javadoc sourcepath="${path.source}" destdir="${path.docummentation}">
             <classpath refid="classpath.test" />
