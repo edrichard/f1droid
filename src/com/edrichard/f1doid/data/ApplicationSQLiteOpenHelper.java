@@ -5,46 +5,71 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Create database.
+ * @author edrichard
+ */
 public class ApplicationSQLiteOpenHelper extends SQLiteOpenHelper {
 
-	public static final String DATABASE_F1DROID = "DATABASEF1DROID";
-	
-	public ApplicationSQLiteOpenHelper(Context context, String name,
-			CursorFactory factory, int version) {
-		super(context, name, factory, version);
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * Connection data base
-	 * @return helper
-	 */
-	public static ApplicationSQLiteOpenHelper connexionDataBase(Context ctx) {
-		ApplicationSQLiteOpenHelper helper = new ApplicationSQLiteOpenHelper(
-				ctx,
-				ApplicationSQLiteOpenHelper.DATABASE_F1DROID,
-				null,
-				1);
-		return helper;
-	}
+    /** Name of database. */
+    public static final String DATABASE_F1DROID = "DATABASEF1DROID";
 
-	@Override 
-    public void onCreate(SQLiteDatabase db) {
-		//Create table Circuit
-		String CREATE_CIRCUIT = DAOCircuit.getSchema();
-		db.execSQL(CREATE_CIRCUIT);
-		
-		//Create table Pilote
-		String CREATE_PILOT = DAOPilote.getSchema();
-		db.execSQL(CREATE_PILOT);
-	}
+    /**
+     * Constructor.
+     * @param context of the application.
+     * @param name of the application.
+     * @param factory of the application.
+     * @param version of the application.
+     */
+    public ApplicationSQLiteOpenHelper(
+            final Context context,
+            final String name,
+            final CursorFactory factory,
+            final int version) {
+        super(context, name, factory, version);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+    /**
+     * Connection data base.
+     * @param ctx of application.
+     * @return helper.
+     */
+    public static ApplicationSQLiteOpenHelper connexionDataBase(
+            final Context ctx) {
+        ApplicationSQLiteOpenHelper helper = new ApplicationSQLiteOpenHelper(
+                ctx,
+                ApplicationSQLiteOpenHelper.DATABASE_F1DROID,
+                null,
+                1);
+        return helper;
+    }
 
+    /**
+     * on create database.
+     * @param db SQLiteDatabase.
+     */
+    @Override
+    public final void onCreate(final SQLiteDatabase db) {
+        String createCircuit = DAOCircuit.getSchema();
+        db.execSQL(createCircuit);
+
+        String createPilot = DAOPilote.getSchema();
+        db.execSQL(createPilot);
+    }
+
+    /**
+     * on upgrade database.
+     * @param db SQLiteDatabase.
+     * @param oldVersion old version of application.
+     * @param newVersion new version of application.
+     */
+    @Override
+    public final void onUpgrade(
+            final SQLiteDatabase db,
+            final int oldVersion,
+            final int newVersion) {
+        // TODO Auto-generated method stub
+
+    }
 }
