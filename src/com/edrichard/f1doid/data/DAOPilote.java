@@ -16,7 +16,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * Classe DOAPilote.
+ * @author edrichard
+ */
 @SuppressLint("SimpleDateFormat")
 public class DAOPilote {
 
@@ -38,23 +41,27 @@ public class DAOPilote {
     /** SQLiteDatabase object. */
     private final SQLiteDatabase db;
 
-    public DAOPilote(final SQLiteDatabase db) {
-        this.db = db; 
+    /**
+     * Constructor.
+     * @param database connection.
+     */
+    public DAOPilote(final SQLiteDatabase database) {
+        this.db = database;
     }
 
     /**
      * Return the schema of table 'pilot'.
      * @return table of pilot.
      */
-    public static String getSchema(){
-        return "create table " + PILOT + " (" +
-                PILOT_ID + " VARCHAR(255) NOT NULL, " +
-                PILOT_URL + " TEXT NOT NULL, " +
-                PILOT_NAME_GIVEN + " VARCHAR(255) NOT NULL, " +
-                PILOT_NAME_FAMILY + " VARCHAR(3,4) NOT NULL, " +
-                PILOT_DATE_OF_BIRTH + " DATETIME, " +
-                PILOT_NATIONALITY + " VARCHAR(255) NOT NULL " +
-                ")";
+    public final String getSchema() {
+        return "create table " + PILOT + " ("
+                + PILOT_ID + " VARCHAR(255) NOT NULL, "
+                + PILOT_URL + " TEXT NOT NULL, "
+                + PILOT_NAME_GIVEN + " VARCHAR(255) NOT NULL, "
+                + PILOT_NAME_FAMILY + " VARCHAR(3,4) NOT NULL, "
+                + PILOT_DATE_OF_BIRTH + " DATETIME, "
+                + PILOT_NATIONALITY + " VARCHAR(255) NOT NULL "
+                + ")";
     }
 
     /**
@@ -62,9 +69,9 @@ public class DAOPilote {
      * @param pilote object.
      * @param ctx of application.
      */
-    public void addPilote(final Pilote pilote, final Context ctx) {
+    public final void addPilote(final Pilote pilote, final Context ctx) {
         ContentValues item = new ContentValues();
-        item.put(PILOT_DATE_OF_BIRTH, 
+        item.put(PILOT_DATE_OF_BIRTH,
                 DateUtils.formatDateTimeToString(
                         pilote.getDateOfBirth(), ctx));
         item.put(PILOT_ID, pilote.getId());
@@ -79,7 +86,7 @@ public class DAOPilote {
      * Return all Pilot.
      * @return pilote of database.
      */
-    public ArrayList<Pilote> getAllPilote() {
+    public final ArrayList<Pilote> getAllPilote() {
         ArrayList<Pilote> pilotes = new ArrayList<Pilote>();
 
         String[] cols = {PILOT_ID,
@@ -93,13 +100,13 @@ public class DAOPilote {
 
         Cursor c = db.query(PILOT, cols, null, null, null, null, orderBy);
 
-        if (c.getCount()>0) {
+        if (c.getCount() > 0) {
             c.moveToFirst();
             Pilote itemPilote;
             do {
-                SimpleDateFormat dateFormat = 
+                SimpleDateFormat dateFormat =
                         new SimpleDateFormat(
-                                "dd/MM/yyyy HH:mm", 
+                                "dd/MM/yyyy HH:mm",
                                 new Locale("FR", "fr"));
                 Date maDate = null;
                 try {
@@ -134,7 +141,7 @@ public class DAOPilote {
      * Return one the pilot.
      * @param pilote of database.
      */
-    public void getPilote(final Pilote pilote) {
+    public final void getPilote(final Pilote pilote) {
 
         String[] cols = {PILOT_NAME_GIVEN,
                 PILOT_NAME_FAMILY,
@@ -144,10 +151,10 @@ public class DAOPilote {
         String whereClause = PILOT_ID + " = ?";
         String[] values = {String.valueOf(pilote.getId())};
 
-        Cursor c = 
+        Cursor c =
                 db.query(PILOT, cols, whereClause, values, null, null, null);
 
-        if (c.getCount()>0) {
+        if (c.getCount() > 0) {
             c.moveToFirst();
             pilote.setGivenName(c.getString(
                     c.getColumnIndex(PILOT_NAME_GIVEN)));
@@ -169,12 +176,12 @@ public class DAOPilote {
      * @param piloteId on the pilot.
      * @return boolean if the pilot exist.
      */
-    public Boolean getPiloteExist(String piloteId) {
+    public final Boolean getPiloteExist(final String piloteId) {
         final String[] cols = {PILOT_ID};
         final String whereClause = PILOT_ID + " = ?";
         String[] values = {String.valueOf(piloteId)};
 
-        Cursor c = 
+        Cursor c =
                 db.query(PILOT, cols, whereClause, values, null, null, null);
 
         return (c.getCount() > 0);
