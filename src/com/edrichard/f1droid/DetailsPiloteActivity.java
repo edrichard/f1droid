@@ -11,40 +11,46 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * Class details of pilot activity.
+ * @author edrichard.
+ */
 @SuppressLint("SimpleDateFormat")
 public class DetailsPiloteActivity extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(final Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_details_pilote);
 
-        Pilote pilote = (Pilote) 
+        Pilote pilote = (Pilote)
                 this.getIntent().getExtras().getSerializable("MON_PILOTE");
 
-        TextView ln_fn_pilote = (TextView) this.findViewById(R.id.lnFnPilote);
-        ln_fn_pilote.setText(
+        TextView lnFnPilote = (TextView) this.findViewById(R.id.lnFnPilote);
+        lnFnPilote.setText(
                 pilote.getFamilyName() + " " + pilote.getGivenName());
 
-        SimpleDateFormat format = 
+        SimpleDateFormat format =
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
         try {
-            date = format.parse (pilote.getDateOfBirth().toString());
+            date = format.parse(pilote.getDateOfBirth().toString());
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }    
+        }
 
         SimpleDateFormat formatFr = new SimpleDateFormat("dd/MM/yyyy");
         String mydateString = formatFr.format(date);
 
-        TextView dateOfBirth_pilote = (TextView) this.findViewById(R.id.dateOfBirthPilote);
-        dateOfBirth_pilote.setText(mydateString);
+        TextView dateOfBirthPilote =
+                (TextView) this.findViewById(R.id.dateOfBirthPilote);
+        dateOfBirthPilote.setText(mydateString);
 
-        TextView nationality_pilote = (TextView) this.findViewById(R.id.nationalityPilote);
-        nationality_pilote.setText(pilote.getNationality());
+        TextView nationalityPilote =
+                (TextView) this.findViewById(R.id.nationalityPilote);
+        nationalityPilote.setText(pilote.getNationality());
     }
 
 }
