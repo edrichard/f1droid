@@ -16,66 +16,80 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * Class details of circuit.
+ * @author edrichard.
+ */
 public class DetailCircuitActivity extends Activity {
 
-	private Circuit getCircuitSerialize() {
-		Circuit circuit = (Circuit) 
-				this.getIntent().getExtras().getSerializable("MON_CIRCUIT");
-		return circuit;
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.activity_detail_circuit);
+    /**
+     * De-serialize object circuit.
+     * @return circuit object.
+     */
+    private Circuit getCircuitSerialize() {
+        Circuit circuit = (Circuit)
+                this.getIntent().getExtras().getSerializable("MON_CIRCUIT");
+        return circuit;
+    }
 
-		this.initGoogleMap();
-		this.buttonWiki();
-	}
-	
-	/**
-	 * Google MAP V2.
-	 */
-	public void initGoogleMap() {
-		GoogleMap map = 
-				((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+    @Override
+    protected final void onCreate(final Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_detail_circuit);
 
-		LatLng circuitPosition = new LatLng(
-				getCircuitSerialize().getLatitude(), 
-				getCircuitSerialize().getLongitude());
+        this.initGoogleMap();
+        this.buttonWiki();
+    }
 
-		map.setMyLocationEnabled(true); 
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(circuitPosition, 13));
+    /**
+     * Initilisation Google MAP V2.
+     */
+    public final void initGoogleMap() {
+        final int zoomCamera = 13;
+        GoogleMap map =
+                ((MapFragment) getFragmentManager().findFragmentById(
+                        R.id.map)).getMap();
 
-		Marker marker = map.addMarker(new MarkerOptions() 
-			.title(getCircuitSerialize().getName())
-			.snippet(
-					getCircuitSerialize().getLocacity() + 
-					" (" + 
-					getCircuitSerialize().getCountry() + 
-					")") 
-			.position(circuitPosition));
-		
-		marker.showInfoWindow();
-	}
-	
-	/**
-	 * Action bouton wikipedia circuit.
-	 */
-	public void buttonWiki() {
-	    Button btWikiCircuit = (Button) findViewById(R.id.btWikiCircuit);
-	    btWikiCircuit.setText(this.getString(R.string.btWikiCircuit) + " : " + getCircuitSerialize().getName());
-	    
-	    btWikiCircuit.setOnClickListener(new OnClickListener() {
-            
+        LatLng circuitPosition = new LatLng(
+                getCircuitSerialize().getLatitude(),
+                getCircuitSerialize().getLongitude());
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                        circuitPosition,
+                        zoomCamera));
+
+        Marker marker = map.addMarker(new MarkerOptions()
+        .title(getCircuitSerialize().getName())
+        .snippet(
+                getCircuitSerialize().getLocacity()
+                + " ("
+                + getCircuitSerialize().getCountry()
+                + ")")
+                .position(circuitPosition));
+
+        marker.showInfoWindow();
+    }
+
+    /**
+     * Action bouton wikipedia circuit.
+     */
+    public final void buttonWiki() {
+        Button btWikiCircuit = (Button) findViewById(R.id.btWikiCircuit);
+        btWikiCircuit.setText(this.getString(R.string.btWikiCircuit)
+                + " : " + getCircuitSerialize().getName());
+
+        btWikiCircuit.setOnClickListener(new OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, 
+            public void onClick(final View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(getCircuitSerialize().getUrl()));
                 startActivity(browserIntent);
             }
         });
-	}
-	
+    }
+
 }
