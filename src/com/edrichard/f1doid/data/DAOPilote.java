@@ -20,135 +20,163 @@ import android.database.sqlite.SQLiteDatabase;
 @SuppressLint("SimpleDateFormat")
 public class DAOPilote {
 
-	/** Pilot table */
-	public static final String PILOT = "pilot";
-	public static final String PILOT_ID = "id";
-	public static final String PILOT_URL = "url";
-	public static final String PILOT_NAME_GIVEN = "nameGiven";
-	public static final String PILOT_NAME_FAMILY = "nameFamily";
-	public static final String PILOT_DATE_OF_BIRTH = "dateOfBirth";
-	public static final String PILOT_NATIONALITY = "nationality";
-	
-	/** SQLiteDatabase object */
-	private SQLiteDatabase db;
-	
-	public DAOPilote(SQLiteDatabase db) {
-		this.db = db; 
-	}
-	
-	/**
-	 * Return the schema of table 'pilot'
-	 * @return
-	 */
-	public static String getSchema(){
-		return "create table " + PILOT + " (" +
-				PILOT_ID + " VARCHAR(255) NOT NULL, " +
-				PILOT_URL + " TEXT NOT NULL, " +
-				PILOT_NAME_GIVEN + " VARCHAR(255) NOT NULL, " +
-				PILOT_NAME_FAMILY + " VARCHAR(3,4) NOT NULL, " +
-				PILOT_DATE_OF_BIRTH + " DATETIME, " +
-				PILOT_NATIONALITY + " VARCHAR(255) NOT NULL " +
-				")";
-	}
-	
-	/**
-	 * Add Circuit.
-	 * @param circuit
-	 */
-	public void addPilote(Pilote pilote, Context ctx) {
-		ContentValues item = new ContentValues();
-		item.put(PILOT_DATE_OF_BIRTH, 
-				DateUtils.formatDateTimeToString(
-						pilote.getDateOfBirth(), ctx));
-		item.put(PILOT_ID, pilote.getId());
-		item.put(PILOT_NAME_FAMILY, pilote.getFamilyName());
-		item.put(PILOT_NAME_GIVEN, pilote.getGivenName());
-		item.put(PILOT_NATIONALITY, pilote.getNationality());
-		item.put(PILOT_URL, pilote.getUrl());
-		db.insert(PILOT, null, item);
-	}
+    /** Pilot table. */
+    public static final String PILOT = "pilot";
+    /** id pilot field. */
+    public static final String PILOT_ID = "id";
+    /** url pilot field. */
+    public static final String PILOT_URL = "url";
+    /** nameGiven pilot field. */
+    public static final String PILOT_NAME_GIVEN = "nameGiven";
+    /** nameFamily pilot field. */
+    public static final String PILOT_NAME_FAMILY = "nameFamily";
+    /** dateOfBirth pilot field. */
+    public static final String PILOT_DATE_OF_BIRTH = "dateOfBirth";
+    /** nationality pilot field. */
+    public static final String PILOT_NATIONALITY = "nationality";
 
-	/**
-	 * Return all Pilot.
-	 * @return pilote
-	 */
-	public ArrayList<Pilote> getAllPilote() {
-		ArrayList<Pilote> pilotes = new ArrayList<Pilote>();
-		
-		String[] COL = {PILOT_ID,
-				PILOT_NAME_GIVEN,
-				PILOT_NAME_FAMILY,
-				PILOT_DATE_OF_BIRTH,
-				PILOT_NATIONALITY,
-				PILOT_URL};
-		
-		String orderBy = PILOT_NAME_GIVEN + " ASC";
+    /** SQLiteDatabase object. */
+    private final SQLiteDatabase db;
 
-		Cursor c = db.query(PILOT, COL, null, null, null, null, orderBy);
-		
-		if (c.getCount()>0) {
-			c.moveToFirst();
-			Pilote itemPilote;
-			do {
-			    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("FR", "fr"));
-			    Date maDate = null;
+    public DAOPilote(final SQLiteDatabase db) {
+        this.db = db; 
+    }
+
+    /**
+     * Return the schema of table 'pilot'.
+     * @return table of pilot.
+     */
+    public static String getSchema(){
+        return "create table " + PILOT + " (" +
+                PILOT_ID + " VARCHAR(255) NOT NULL, " +
+                PILOT_URL + " TEXT NOT NULL, " +
+                PILOT_NAME_GIVEN + " VARCHAR(255) NOT NULL, " +
+                PILOT_NAME_FAMILY + " VARCHAR(3,4) NOT NULL, " +
+                PILOT_DATE_OF_BIRTH + " DATETIME, " +
+                PILOT_NATIONALITY + " VARCHAR(255) NOT NULL " +
+                ")";
+    }
+
+    /**
+     * Add pilot of database.
+     * @param pilote object.
+     * @param ctx of application.
+     */
+    public void addPilote(final Pilote pilote, final Context ctx) {
+        ContentValues item = new ContentValues();
+        item.put(PILOT_DATE_OF_BIRTH, 
+                DateUtils.formatDateTimeToString(
+                        pilote.getDateOfBirth(), ctx));
+        item.put(PILOT_ID, pilote.getId());
+        item.put(PILOT_NAME_FAMILY, pilote.getFamilyName());
+        item.put(PILOT_NAME_GIVEN, pilote.getGivenName());
+        item.put(PILOT_NATIONALITY, pilote.getNationality());
+        item.put(PILOT_URL, pilote.getUrl());
+        db.insert(PILOT, null, item);
+    }
+
+    /**
+     * Return all Pilot.
+     * @return pilote of database.
+     */
+    public ArrayList<Pilote> getAllPilote() {
+        ArrayList<Pilote> pilotes = new ArrayList<Pilote>();
+
+        String[] cols = {PILOT_ID,
+                PILOT_NAME_GIVEN,
+                PILOT_NAME_FAMILY,
+                PILOT_DATE_OF_BIRTH,
+                PILOT_NATIONALITY,
+                PILOT_URL};
+
+        String orderBy = PILOT_NAME_GIVEN + " ASC";
+
+        Cursor c = db.query(PILOT, cols, null, null, null, null, orderBy);
+
+        if (c.getCount()>0) {
+            c.moveToFirst();
+            Pilote itemPilote;
+            do {
+                SimpleDateFormat dateFormat = 
+                        new SimpleDateFormat(
+                                "dd/MM/yyyy HH:mm", 
+                                new Locale("FR", "fr"));
+                Date maDate = null;
                 try {
-                    maDate = dateFormat.parse(c.getString(c.getColumnIndex(PILOT_DATE_OF_BIRTH)));
+                    maDate = dateFormat.parse(c.getString(
+                            c.getColumnIndex(PILOT_DATE_OF_BIRTH)));
                 } catch (ParseException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-			    DateTime dateTime = new DateTime(maDate);
-			    
-				itemPilote = new Pilote();
-				itemPilote.setId(c.getString(c.getColumnIndex(PILOT_ID)));
-				itemPilote.setGivenName(c.getString(c.getColumnIndex(PILOT_NAME_GIVEN)));
-				itemPilote.setFamilyName(c.getString(c.getColumnIndex(PILOT_NAME_FAMILY)));
-				itemPilote.setNationality(c.getString(c.getColumnIndex(PILOT_NATIONALITY)));
-				itemPilote.setUrl(c.getString(c.getColumnIndex(PILOT_URL)));
-				itemPilote.setDateOfBirth(dateTime);
-				pilotes.add(itemPilote);
-			} while (c.moveToNext());
-		}
-		
-		return pilotes;
-	}
-	
-	/**
-	 * Get Circuit by id.
-	 * @param circuit
-	 */
-	public void getPilote(Pilote pilote) {
-		
-		String[] COLS = {PILOT_NAME_GIVEN,
-				PILOT_NAME_FAMILY,
-				PILOT_DATE_OF_BIRTH,
-				PILOT_NATIONALITY,
-				PILOT_URL};
-		String whereClause = PILOT_ID + " = ?";
-		String[] VALUES = {String.valueOf(pilote.getId())};
-		
-		Cursor c = db.query(PILOT, COLS, whereClause, VALUES, null, null, null);
-		
-		if (c.getCount()>0) {
-			c.moveToFirst();
-			pilote.setGivenName(c.getString(c.getColumnIndex(PILOT_NAME_GIVEN)));
-			pilote.setFamilyName(c.getString(c.getColumnIndex(PILOT_NAME_FAMILY)));
-			pilote.setNationality(c.getString(c.getColumnIndex(PILOT_NATIONALITY)));
-			pilote.setUrl(c.getString(c.getColumnIndex(PILOT_URL)));
-			pilote.setDateOfBirth(
-					DateUtils.formatLocalISOStringToDateTime(
-							c.getString(c.getColumnIndex(PILOT_DATE_OF_BIRTH))));
-		}
-	}
-	
-	public Boolean getPiloteExist(String piloteId) {
-		String[] COLS = {PILOT_ID};
-		String whereClause = PILOT_ID + " = ?";
-		String[] VALUES = {String.valueOf(piloteId)};
+                DateTime dateTime = new DateTime(maDate);
 
-		Cursor c = db.query(PILOT, COLS, whereClause, VALUES, null, null, null);
+                itemPilote = new Pilote();
+                itemPilote.setId(c.getString(
+                        c.getColumnIndex(PILOT_ID)));
+                itemPilote.setGivenName(c.getString(
+                        c.getColumnIndex(PILOT_NAME_GIVEN)));
+                itemPilote.setFamilyName(c.getString(
+                        c.getColumnIndex(PILOT_NAME_FAMILY)));
+                itemPilote.setNationality(c.getString(
+                        c.getColumnIndex(PILOT_NATIONALITY)));
+                itemPilote.setUrl(c.getString(
+                        c.getColumnIndex(PILOT_URL)));
+                itemPilote.setDateOfBirth(dateTime);
+                pilotes.add(itemPilote);
+            } while (c.moveToNext());
+        }
 
-		return (c.getCount() > 0);
-	}
+        return pilotes;
+    }
+
+    /**
+     * Return one the pilot.
+     * @param pilote of database.
+     */
+    public void getPilote(final Pilote pilote) {
+
+        String[] cols = {PILOT_NAME_GIVEN,
+                PILOT_NAME_FAMILY,
+                PILOT_DATE_OF_BIRTH,
+                PILOT_NATIONALITY,
+                PILOT_URL};
+        String whereClause = PILOT_ID + " = ?";
+        String[] values = {String.valueOf(pilote.getId())};
+
+        Cursor c = 
+                db.query(PILOT, cols, whereClause, values, null, null, null);
+
+        if (c.getCount()>0) {
+            c.moveToFirst();
+            pilote.setGivenName(c.getString(
+                    c.getColumnIndex(PILOT_NAME_GIVEN)));
+            pilote.setFamilyName(c.getString(
+                    c.getColumnIndex(PILOT_NAME_FAMILY)));
+            pilote.setNationality(c.getString(
+                    c.getColumnIndex(PILOT_NATIONALITY)));
+            pilote.setUrl(c.getString(
+                    c.getColumnIndex(PILOT_URL)));
+            pilote.setDateOfBirth(
+                    DateUtils.formatLocalISOStringToDateTime(
+                            c.getString(
+                                    c.getColumnIndex(PILOT_DATE_OF_BIRTH))));
+        }
+    }
+
+    /**
+     * Pilote of exist on the database.
+     * @param piloteId on the pilot.
+     * @return boolean if the pilot exist.
+     */
+    public Boolean getPiloteExist(String piloteId) {
+        final String[] cols = {PILOT_ID};
+        final String whereClause = PILOT_ID + " = ?";
+        String[] values = {String.valueOf(piloteId)};
+
+        Cursor c = 
+                db.query(PILOT, cols, whereClause, values, null, null, null);
+
+        return (c.getCount() > 0);
+    }
 }
