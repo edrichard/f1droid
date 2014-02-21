@@ -55,6 +55,6 @@
         </checkstyle>
     </target>
 
-    <!-- <target name="all" depends="clean, junit, pmd, checkstyle, jar, doc" /> -->
+    <target name="all" depends="clean, pmd, checkstyle, doc" />
 
 </project>
