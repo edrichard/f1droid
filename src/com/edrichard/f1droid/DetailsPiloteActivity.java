@@ -32,7 +32,7 @@ public class DetailsPiloteActivity extends Activity {
                 pilote.getFamilyName() + " " + pilote.getGivenName());
 
         SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Date date = null;
         try {
             date = format.parse(pilote.getDateOfBirth().toString());
