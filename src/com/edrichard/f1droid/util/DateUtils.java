@@ -2,7 +2,7 @@
  * DateUtils.java, RucheResa Android
  *
  * Copyright 2014 Mickael Gaillard / TACTfactory
- * Description : 
+ * Description :
  * Author(s)   : Harmony
  * Licence     : all right reserved
  * Last update : Feb 6, 2014
@@ -25,518 +25,567 @@ import org.joda.time.format.ISODateTimeFormat;
 import android.content.Context;
 import android.util.Log;
 
-/** 
+/**
  * Utility class for date manipulation.
  */
 public class DateUtils extends android.text.format.DateUtils {
-	/** TAG for debug purpose. */
-	private static final String TAG = "DateUtils";
+    /** TAG for debug purpose. */
+    private static final String TAG = "DateUtils";
+    /** TAG int one. */
+    private static final int ONE = 1;
+    /** TAG int two. */
+    private static final int TWO = 2;
+    /** TAG int three. */
+    private static final int THREE = 3;
+    /** TAG int four. */
+    private static final int FOUR = 4;
+    /** TAG int five. */
+    private static final int FIVE = 5;
+    /** TAG int six. */
+    private static final int SIX = 6;
 
-	/** Internal pattern for AM PM time. */
-	private static final String TIME_AMPM_PATTERN = "hh:mm a";
-	/** Internal pattern for H24 time. */
-	private static final String TIME_24H_PATTERN = "HH:mm";
+    /** Internal pattern for AM PM time. */
+    private static final String TIME_AMPM_PATTERN = "hh:mm a";
+    /** Internal pattern for H24 time. */
+    private static final String TIME_24H_PATTERN = "HH:mm";
 
-	/** Regexp Date for YAML. */
-	private static final String REGEXP_YAML_DATE = 
-			"([0-9][0-9][0-9][0-9])"
-			+ "-([0-9][0-9]?)"
-			+ "-([0-9][0-9]?)";
-	
-	/** Regexp Time for YAML. */
-	private static final String REGEXP_YAML_TIME = 
-			"([Tt]|[ \\t]+)([0-9][0-9]?)"
-			+ ":([0-9][0-9])"
-			+ ":([0-9][0-9])"
-			+ "(\\.[0-9]*)?"
-			+ "(([ \\t]*)Z|[-+][0-9][0-9]?(:[0-9][0-9])?)?";
+    /** Regexp Date for YAML. */
+    private static final String REGEXP_YAML_DATE =
+            "([0-9][0-9][0-9][0-9])"
+                    + "-([0-9][0-9]?)"
+                    + "-([0-9][0-9]?)";
 
-
-	/** Regexp Date for XML. */
-	private static final String REGEXP_XML_DATE = 
-			"([0-9][0-9][0-9][0-9])"
-			+ "-([0-9][0-9])"
-			+ "-([0-9][0-9])";
-	
-	/** Regexp Time for XML. */
-	private static final String REGEXP_XML_TIME = 
-			"([Tt]|[ \\t]+)([0-9][0-9]?)"
-			+ ":([0-9][0-9])"
-			+ ":([0-9][0-9])"
-			+ "(\\.[0-9]*)?";
-	
-	/** Regexp TimeZone for XML. */
-	private static final String REGEXP_XML_TIMEZONE =
-			 "(Z|[-+][0-9][0-9]:[0-9][0-9])";
-
-	/** Time Format type. */
-	public enum TimeFormatType {
-		/** 24h format. */
-		H24,
-		/** AM/PM format. */
-		AMPM,
-		/** Format defined in user's Android configuration. */
-		ANDROID_CONF;
-	}
+    /** Regexp Time for YAML. */
+    private static final String REGEXP_YAML_TIME =
+            "([Tt]|[ \\t]+)([0-9][0-9]?)"
+                    + ":([0-9][0-9])"
+                    + ":([0-9][0-9])"
+                    + "(\\.[0-9]*)?"
+                    + "(([ \\t]*)Z|[-+][0-9][0-9]?(:[0-9][0-9])?)?";
 
 
-	/**
-	 * Convert date to Android string date format.
-	 *
-	 * @param date to convert
-	 *
-	 * @return string date with Android date format
-	 */
-	public static String formatDateToString(DateTime date, Context ctx) {
-		return DateUtils.formatDateToString(date, false, ctx);
-	}
+    /** Regexp Date for XML. */
+    private static final String REGEXP_XML_DATE =
+            "([0-9][0-9][0-9][0-9])"
+                    + "-([0-9][0-9])"
+                    + "-([0-9][0-9])";
 
-	/**
-	 * Convert date to Android string date format.
-	 *
-	 * @param date to convert
-	 * @param local should the date be displayed as a local datetime
-	 *
-	 * @return string date with Android date format
-	 */
-	public static String formatDateToString(DateTime date, boolean local, Context ctx) {
-		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(ctx);
+    /** Regexp Time for XML. */
+    private static final String REGEXP_XML_TIME =
+            "([Tt]|[ \\t]+)([0-9][0-9]?)"
+                    + ":([0-9][0-9])"
+                    + ":([0-9][0-9])"
+                    + "(\\.[0-9]*)?";
 
-		if (local) {
-			df.setTimeZone(date.getZone().toTimeZone());
-		}
+    /** Regexp TimeZone for XML. */
+    private static final String REGEXP_XML_TIMEZONE =
+            "(Z|[-+][0-9][0-9]:[0-9][0-9])";
 
-		return df.format(date.toDate());
-	}
+    /** Time Format type. */
+    public enum TimeFormatType {
+        /** 24h format. */
+        H24,
+        /** AM/PM format. */
+        AMPM,
+        /** Format defined in user's Android configuration. */
+        ANDROID_CONF;
+    }
 
-	/**
-	 * Convert date to Android string time format.
-	 * @param time Time to convert
-	 * @return string time with Android time format
-	 */
-	public static String formatTimeToString(DateTime time, Context ctx) {
-		String result = null;
-		if (android.text.format.DateFormat.is24HourFormat(ctx)) {
-			result = time.toString(DateTimeFormat.forPattern(TIME_24H_PATTERN)
-					.withZone(DateTimeZone.getDefault()));
-		} else {
-			result = time.toString(DateTimeFormat.forPattern(TIME_AMPM_PATTERN)
-					.withZone(DateTimeZone.getDefault()));
-		}
 
-		return result;
-	}
+    /**
+     * Convert date to Android string date format.
+     *
+     * @param date to convert
+     * @param ctx : Context of application
+     * @return string date with Android date format
+     */
+    public static String formatDateToString(
+            final DateTime date,
+            final Context ctx) {
+        return DateUtils.formatDateToString(date, false, ctx);
+    }
 
-	/**
-	 * Convert date to Android string time format.
-	 * @param time to convert
-	 * @param formatType The time format
-	 * @return string time with Android time format
-	 */
-	public static String formatTimeToString(
-			DateTime time,
-			TimeFormatType formatType,
-			Context ctx) {
-		String result;
-		if (formatType.equals(TimeFormatType.H24)) {
-			result =
-				time.toString(DateTimeFormat.forPattern(TIME_24H_PATTERN)
-						.withZone(DateTimeZone.getDefault()));
-		} else if (formatType.equals(TimeFormatType.AMPM)) {
-			result =
-				time.toString(DateTimeFormat.forPattern(TIME_AMPM_PATTERN)
-						.withZone(DateTimeZone.getDefault()));
-		} else if (formatType.equals(TimeFormatType.ANDROID_CONF)) {
-			result = formatTimeToString(time, ctx);
-		} else {
-			result = null;
-		}
-		return result;
-	}
+    /**
+     * Convert date to Android string date format.
+     *
+     * @param date to convert
+     * @param local should the date be displayed as a local datetime
+     * @param ctx : Context of application
+     * @return string date with Android date format
+     */
+    public static String formatDateToString(
+            final DateTime date,
+            final boolean local,
+            final Context ctx) {
+        java.text.DateFormat df =
+                android.text.format.DateFormat.getDateFormat(ctx);
 
-	/**
-	 * Convert datetime to Android string date + time format.
-	 * @param date to convert
-	 * @return string datetime with Android date + time format
-	 */
-	public static String formatDateTimeToString(DateTime date, Context ctx) {
-		return String.format("%s %s",
-				formatDateToString(date, ctx),
-				formatTimeToString(date, ctx));
-	}
+        if (local) {
+            df.setTimeZone(date.getZone().toTimeZone());
+        }
 
-	/**
-	 * Convert Android String date format to datetime.
-	 * @param date Android string date format to convert
-	 * @return datetime
-	 */
-	public static DateTime formatStringToDate(String date, Context ctx) {
-		return formatStringToDateTime(
-				android.text.format.DateFormat.getTimeFormat(ctx),  
-				date);
-	}
+        return df.format(date.toDate());
+    }
 
-	/**
-	 * Convert Android String time format to datetime.
-	 * @param time Android string time format to convert
-	 * @return datetime
-	 */
-	public static DateTime formatStringToTime(String time, Context ctx) {
-		return formatStringToDateTime(
-				android.text.format.DateFormat.getTimeFormat(ctx), 
-				time);
-	}
+    /**
+     * Convert date to Android string time format.
+     * @param time Time to convert
+     * @param ctx : Context of application
+     * @return string time with Android time format
+     */
+    public static String formatTimeToString(
+            final DateTime time,
+            final Context ctx) {
+        String result = null;
+        if (android.text.format.DateFormat.is24HourFormat(ctx)) {
+            result = time.toString(DateTimeFormat.forPattern(TIME_24H_PATTERN)
+                    .withZone(DateTimeZone.getDefault()));
+        } else {
+            result = time.toString(DateTimeFormat.forPattern(TIME_AMPM_PATTERN)
+                    .withZone(DateTimeZone.getDefault()));
+        }
 
-	/**
-	 * Convert Android String time format to datetime.
-	 * @param time Android string time format to convert
-	 * @param formatType The time format type
-	 * @return datetime The parsed datetime
-	 */
-	public static DateTime formatStringToTime(
-			String time,
-			TimeFormatType formatType,
-			Context ctx) {
-		DateTime result;
-		if (formatType.equals(TimeFormatType.H24)) {
-			result = DateTimeFormat.forPattern(TIME_24H_PATTERN).parseDateTime(
-					time);
-		} else if (formatType.equals(TimeFormatType.AMPM)) {
-			result = DateTimeFormat.forPattern(TIME_AMPM_PATTERN).parseDateTime(
-					time);
-		} else if (formatType.equals(TimeFormatType.ANDROID_CONF)) {
-			result = DateUtils.formatStringToTime(time, ctx);
-		} else {
-			result = null;
-		}
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Convert Android String date and time format to datetime.
-	 * @param date Android string date format to convert
-	 * @param time Android string time format to convert
-	 * @return datetime
-	 */
-	public static DateTime formatStringToDateTime(String date, String time, Context ctx) {
-		DateTime dt = formatStringToDate(date, ctx);
-		DateTime t = formatStringToTime(time, ctx);
+    /**
+     * Convert date to Android string time format.
+     * @param time to convert
+     * @param formatType The time format
+     * @param ctx : Context of application
+     * @return string time with Android time format
+     */
+    public static String formatTimeToString(
+            final DateTime time,
+            final TimeFormatType formatType,
+            final Context ctx) {
+        String result;
+        if (formatType.equals(TimeFormatType.H24)) {
+            result =
+                    time.toString(DateTimeFormat.forPattern(TIME_24H_PATTERN)
+                            .withZone(DateTimeZone.getDefault()));
+        } else if (formatType.equals(TimeFormatType.AMPM)) {
+            result =
+                    time.toString(DateTimeFormat.forPattern(TIME_AMPM_PATTERN)
+                            .withZone(DateTimeZone.getDefault()));
+        } else if (formatType.equals(TimeFormatType.ANDROID_CONF)) {
+            result = formatTimeToString(time, ctx);
+        } else {
+            result = null;
+        }
+        return result;
+    }
 
-		dt = new DateTime(dt.getYear(),
-				dt.getMonthOfYear(),
-				dt.getDayOfMonth(),
-				t.getHourOfDay(),
-				t.getMinuteOfHour());
+    /**
+     * Convert datetime to Android string date + time format.
+     * @param date to convert
+     * @param ctx : Context of application
+     * @return string datetime with Android date + time format
+     */
+    public static String formatDateTimeToString(
+            final DateTime date,
+            final Context ctx) {
+        return String.format("%s %s",
+                formatDateToString(date, ctx),
+                formatTimeToString(date, ctx));
+    }
 
-		return dt;
-	}
+    /**
+     * Convert Android String date format to datetime.
+     * @param date Android string date format to convert
+     * @param ctx : Context of application
+     * @return datetime
+     */
+    public static DateTime formatStringToDate(
+            final String date,
+            final Context ctx) {
+        return formatStringToDateTime(
+                android.text.format.DateFormat.getTimeFormat(ctx),
+                date);
+    }
 
-	/**
-	 * Convert Android String date and time format to datetime.
-	 * @param date Android string date format to convert
-	 * @param time Android string time format to convert
-	 * @param timeFormat The time format
-	 * @return datetime
-	 */
-	public static DateTime formatStringToDateTime(String date,
-			String time,
-			TimeFormatType timeFormat,
-			Context ctx) {
+    /**
+     * Convert Android String time format to datetime.
+     * @param time Android string time format to convert
+     * @param ctx : Context of application
+     * @return datetime
+     */
+    public static DateTime formatStringToTime(
+            final String time,
+            final Context ctx) {
+        return formatStringToDateTime(
+                android.text.format.DateFormat.getTimeFormat(ctx),
+                time);
+    }
 
-		DateTime dt = formatStringToDate(date, ctx);
-		DateTime t = formatStringToTime(time, timeFormat, ctx);
+    /**
+     * Convert Android String time format to datetime.
+     * @param time Android string time format to convert
+     * @param formatType The time format type
+     * @param ctx : Context of application
+     * @return datetime The parsed datetime
+     */
+    public static DateTime formatStringToTime(
+            final String time,
+            final TimeFormatType formatType,
+            final Context ctx) {
+        DateTime result;
+        if (formatType.equals(TimeFormatType.H24)) {
+            result = DateTimeFormat.forPattern(TIME_24H_PATTERN).parseDateTime(
+                    time);
+        } else if (formatType.equals(TimeFormatType.AMPM)) {
+            result = DateTimeFormat.forPattern(TIME_AMPM_PATTERN).parseDateTime(
+                    time);
+        } else if (formatType.equals(TimeFormatType.ANDROID_CONF)) {
+            result = DateUtils.formatStringToTime(time, ctx);
+        } else {
+            result = null;
+        }
+        return result;
+    }
 
-		dt = new DateTime(dt.getYear(),
-				dt.getMonthOfYear(),
-				dt.getDayOfMonth(),
-				t.getHourOfDay(),
-				t.getMinuteOfHour());
+    /**
+     * Convert Android String date and time format to datetime.
+     * @param date Android string date format to convert
+     * @param time Android string time format to convert
+     * @param ctx : Context of application
+     * @return datetime
+     */
+    public static DateTime formatStringToDateTime(
+            final String date,
+            final String time,
+            final Context ctx) {
+        DateTime dt = formatStringToDate(date, ctx);
+        DateTime t = formatStringToTime(time, ctx);
 
-		return dt;
-	}
+        dt = new DateTime(dt.getYear(),
+                dt.getMonthOfYear(),
+                dt.getDayOfMonth(),
+                t.getHourOfDay(),
+                t.getMinuteOfHour());
 
-	/**
-	 * Convert String date with dateformat to datetime.
-	 * @param dateFormat date format of datetime
-	 * @param dateTime string datetime to convert
-	 * @return datetime
-	 */
-	public static DateTime formatStringToDateTime(
-							java.text.DateFormat dateFormat, String dateTime) {
-		DateTime dt = null;
+        return dt;
+    }
 
-		try {
-			dt = new DateTime(dateFormat.parse(dateTime).getTime());
-		} catch (ParseException e) {
-			Log.e(TAG, e.getMessage());
-		}
+    /**
+     * Convert Android String date and time format to datetime.
+     * @param date Android string date format to convert
+     * @param time Android string time format to convert
+     * @param timeFormat The time format
+     * @param ctx : Context of application
+     * @return datetime
+     */
+    public static DateTime formatStringToDateTime(
+            final String date,
+            final String time,
+            final TimeFormatType timeFormat,
+            final Context ctx) {
 
-		return dt;
-	}
+        DateTime dt = formatStringToDate(date, ctx);
+        DateTime t = formatStringToTime(time, timeFormat, ctx);
 
-	/**
-	 * Convert ISO8601 string date to datetime.
-	 * @param dateTime ISO8601 string date
-	 * @return datetime
-	 */
-	public static DateTime formatISOStringToDateTime(String dateTime) {
-		DateTime dt = null;
+        dt = new DateTime(dt.getYear(),
+                dt.getMonthOfYear(),
+                dt.getDayOfMonth(),
+                t.getHourOfDay(),
+                t.getMinuteOfHour());
 
-		try {
-			dt = ISODateTimeFormat.dateTime()
-					.withOffsetParsed().parseDateTime(dateTime);
-		} catch (IllegalArgumentException e) {
-			Log.e(TAG, e.getMessage());
-		}
+        return dt;
+    }
 
-		return dt;
-	}
+    /**
+     * Convert String date with dateformat to datetime.
+     * @param dateFormat date format of datetime
+     * @param dateTime string datetime to convert
+     * @return datetime
+     */
+    public static DateTime formatStringToDateTime(
+            final java.text.DateFormat dateFormat,
+            final String dateTime) {
+        DateTime dt = null;
 
-	
-	/**
-	 * Convert ISO8601 string date to datetime.
-	 * @param time ISO8601 string date
-	 * @return datetime
-	 */
-	public static DateTime formatISOStringToTime(String time) {
-		DateTime dt = null;
+        try {
+            dt = new DateTime(dateFormat.parse(dateTime).getTime());
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+        }
 
-		try {
-			dt = ISODateTimeFormat.timeParser().withOffsetParsed()
-					.parseDateTime(time);
-		} catch (IllegalArgumentException e) {
-			Log.e(TAG, e.getMessage());
-		}
+        return dt;
+    }
 
-		return dt;
-	}
+    /**
+     * Convert ISO8601 string date to datetime.
+     * @param dateTime ISO8601 string date
+     * @return datetime
+     */
+    public static DateTime formatISOStringToDateTime(final String dateTime) {
+        DateTime dt = null;
 
-	/**
-	 * Convert ISO8601 string localdate to datetime.
-	 * @param dateTime ISO8601 string localdate
-	 * @return datetime
-	 */
-	public static DateTime formatLocalISOStringToDateTime(String dateTime) {
-		DateTime dt = null;
+        try {
+            dt = ISODateTimeFormat.dateTime()
+                    .withOffsetParsed().parseDateTime(dateTime);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+        }
 
-		try {
-			dt = ISODateTimeFormat.localDateOptionalTimeParser()
-					.parseDateTime(dateTime);
-		} catch (IllegalArgumentException e) {
-			Log.e(TAG, e.getMessage());
-		}
+        return dt;
+    }
 
-		return dt;
-	}
 
-	/**
-	 * Convert Yaml string date/time to datetime.
-	 * @param dateTime yaml string date/time
-	 * @return datetime the datetime
-	 */
-	public static DateTime formatYAMLStringToDateTime(String dateTime) {
-		DateTime dt = null;
-		DateTime date = null;
-		DateTime time = null;
-		DateTime defaultDt = new DateTime(DateTimeZone.UTC);
-		
-		Matcher match = Pattern.compile(REGEXP_YAML_DATE).matcher(dateTime);
-		
-		if (match.find()) {
-			int year = Integer.parseInt(match.group(1));
-			int month = Integer.parseInt(match.group(2));
-			int day = Integer.parseInt(match.group(3));
-			
-			date = new DateTime(
-					year,
-					month,
-					day,
-					defaultDt.getHourOfDay(),
-					defaultDt.getMinuteOfHour(),
-					defaultDt.getSecondOfMinute());
-		} else {
-			date = new DateTime(0);
-		}
-		
-		Matcher matchTime = Pattern.compile(REGEXP_YAML_TIME).matcher(dateTime);
-		
-		if (matchTime.find()) {
-			int hour = Integer.parseInt(matchTime.group(2));
-			int minute = Integer.parseInt(matchTime.group(3));
-			int second = Integer.parseInt(matchTime.group(4));
-			String millisString = matchTime.group(5);
-			int millis;
-			if (millisString != null) {
-				millis = Integer.parseInt(millisString.substring(1));
-			} else {
-				millis = 0;
-			}
-			String timeZoneString = matchTime.group(6);
-			DateTimeZone timeZone;
-			if (timeZoneString == null) {
-				timeZone = DateTimeZone.UTC;
-			} else {
-				timeZone = DateTimeZone.forID(timeZoneString);
-			}
-			time = new DateTime(
-					defaultDt.getYear(),
-					defaultDt.getMonthOfYear(),
-					defaultDt.getDayOfMonth(),
-					hour,
-					minute,
-					second,
-					millis,
-					timeZone);
-		} else {
-			time = new DateTime(defaultDt);
-		}
-		
-		dt = DateUtils.merge(date, time);
-		return dt;
-	}
+    /**
+     * Convert ISO8601 string date to datetime.
+     * @param time ISO8601 string date
+     * @return datetime
+     */
+    public static DateTime formatISOStringToTime(final String time) {
+        DateTime dt = null;
 
-	/**
-	 * Convert XML string date/time to datetime.
-	 * @param dateTime XML string date/time
-	 * @return datetime the datetime
-	 */
-	public static DateTime formatXMLStringToDateTime(String dateTime) {
-		DateTime dt = null;
-		DateTime date = null;
-		DateTime time = null;
-		DateTime defaultDt;
-		
-		Matcher matchTimeZone = 
-				Pattern.compile(REGEXP_XML_TIMEZONE).matcher(dateTime);
-		
-		if (matchTimeZone.find()) {
-			String timeZoneString = matchTimeZone.group(1);
-			defaultDt = new DateTime(0, DateTimeZone.forID(timeZoneString));
-		} else {
-			defaultDt = new DateTime(0, DateTimeZone.UTC);
-		}
-		
-		Matcher matchTime = Pattern.compile(REGEXP_XML_TIME).matcher(dateTime);
-		
-		Matcher match = Pattern.compile(REGEXP_XML_DATE).matcher(dateTime);
-		
-		if (match.find()) {
-			int year = Integer.parseInt(match.group(1));
-			int month = Integer.parseInt(match.group(2));
-			int day = Integer.parseInt(match.group(3));
-			
-			date = new DateTime(
-					year,
-					month,
-					day,
-					defaultDt.getHourOfDay(),
-					defaultDt.getMinuteOfHour(),
-					defaultDt.getSecondOfMinute(),
-					defaultDt.getZone());
-		} else {
-			date = new DateTime(defaultDt);
-		}
-		
-		
-		if (matchTime.find()) {
-			int hour = Integer.parseInt(matchTime.group(2));
-			int minute = Integer.parseInt(matchTime.group(3));
-			int second = Integer.parseInt(matchTime.group(4));
-			String millisString = matchTime.group(5);
-			int millis;
-			if (millisString != null) {
-				millis = Integer.parseInt(millisString.substring(1));
-			} else {
-				millis = 0;
-			}
-			
-			time = new DateTime(
-					defaultDt.getYear(),
-					defaultDt.getMonthOfYear(),
-					defaultDt.getDayOfMonth(),
-					hour,
-					minute,
-					second,
-					millis,
-					defaultDt.getZone());
-		} else {
-			time = new DateTime(defaultDt);
-		}
-		
-		dt = DateUtils.merge(date, time);
-		return dt;
-	}
-	
-	/**
-	 * Merge two DateTime reprensenting a date and a time.
-	 * 
-	 * @param date The date
-	 * @param time The time
-	 *
-	 * @return The merged date time
-	 */
-	public static DateTime merge(DateTime date, DateTime time) {
-		return new DateTime(date.getYear(),
-				date.getMonthOfYear(),
-				date.getDayOfMonth(),
-				time.getHourOfDay(),
-				time.getMinuteOfHour(),
-				time.getSecondOfMinute(),
-				time.getMillisOfSecond(),
-				time.getZone());
-	}
+        try {
+            dt = ISODateTimeFormat.timeParser().withOffsetParsed()
+                    .parseDateTime(time);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+        }
 
-	/**
-	 * Convert a string to a datetime thanks to the given pattern.
-	 * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
-	 * hh:mm")
-	 * @param dateTime date string
-	 * @param locale Locale
-	 * @return datetime
-	 */
-	public static DateTime formatPattern(
-			String pattern, String dateTime, Locale locale) {
-		DateTime dt = null;
+        return dt;
+    }
 
-		try {
-			dt = DateTimeFormat.forPattern(pattern)
-					.withLocale(locale).parseDateTime(dateTime);
-		} catch (IllegalArgumentException e) {
-			Log.e(TAG, e.getMessage());
-		}
+    /**
+     * Convert ISO8601 string localdate to datetime.
+     * @param dateTime ISO8601 string localdate
+     * @return datetime
+     */
+    public static DateTime formatLocalISOStringToDateTime(
+            final String dateTime) {
+        DateTime dt = null;
 
-		return dt;
-	}
+        try {
+            dt = ISODateTimeFormat.localDateOptionalTimeParser()
+                    .parseDateTime(dateTime);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+        }
 
-	/**
-	 * Convert a string to a datetime thanks to the given pattern.
-	 * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
-	 * hh:mm")
-	 * @param dateTime date string
-	 * @return datetime
-	 */
-	public static DateTime formatPattern(String pattern, String dateTime) {
-		return formatPattern(pattern, dateTime, Locale.getDefault());
-	}
+        return dt;
+    }
 
-	/**
-	 * Convert a string to a locale datetime thanks to the given pattern.
-	 * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
-	 * hh:mm")
-	 * @param dateTime date string
-	 * @return datetime
-	 */
-	public static DateTime formatLocalPattern(String pattern, String dateTime) {
-		DateTime dt = null;
+    /**
+     * Convert Yaml string date/time to datetime.
+     * @param dateTime yaml string date/time
+     * @return datetime the datetime
+     */
+    public static DateTime formatYAMLStringToDateTime(final String dateTime) {
+        DateTime dt = null;
+        DateTime date = null;
+        DateTime time = null;
+        DateTime defaultDt = new DateTime(DateTimeZone.UTC);
 
-		try {
-			LocalDateTime tmp = DateTimeFormat.forPattern(pattern)
-					.parseLocalDateTime(dateTime);
-			dt = DateUtils.formatLocalISOStringToDateTime(tmp.toString());
-		} catch (IllegalArgumentException e) {
-			Log.e(TAG, e.getMessage());
-		}
+        Matcher match = Pattern.compile(REGEXP_YAML_DATE).matcher(dateTime);
 
-		return dt;
-	}
+        if (match.find()) {
+            int year = Integer.parseInt(match.group(ONE));
+            int month = Integer.parseInt(match.group(TWO));
+            int day = Integer.parseInt(match.group(THREE));
+
+            date = new DateTime(
+                    year,
+                    month,
+                    day,
+                    defaultDt.getHourOfDay(),
+                    defaultDt.getMinuteOfHour(),
+                    defaultDt.getSecondOfMinute());
+        } else {
+            date = new DateTime(0);
+        }
+
+        Matcher matchTime =
+                Pattern.compile(REGEXP_YAML_TIME).matcher(dateTime);
+
+        if (matchTime.find()) {
+            int hour = Integer.parseInt(matchTime.group(TWO));
+            int minute = Integer.parseInt(matchTime.group(THREE));
+            int second = Integer.parseInt(matchTime.group(FOUR));
+            String millisString = matchTime.group(FIVE);
+            int millis;
+            if (millisString != null) {
+                millis = Integer.parseInt(millisString.substring(ONE));
+            } else {
+                millis = 0;
+            }
+            String timeZoneString = matchTime.group(SIX);
+            DateTimeZone timeZone;
+            if (timeZoneString == null) {
+                timeZone = DateTimeZone.UTC;
+            } else {
+                timeZone = DateTimeZone.forID(timeZoneString);
+            }
+            time = new DateTime(
+                    defaultDt.getYear(),
+                    defaultDt.getMonthOfYear(),
+                    defaultDt.getDayOfMonth(),
+                    hour,
+                    minute,
+                    second,
+                    millis,
+                    timeZone);
+        } else {
+            time = new DateTime(defaultDt);
+        }
+
+        dt = DateUtils.merge(date, time);
+        return dt;
+    }
+
+    /**
+     * Convert XML string date/time to datetime.
+     * @param dateTime XML string date/time
+     * @return datetime the datetime
+     */
+    public static DateTime formatXMLStringToDateTime(final String dateTime) {
+        DateTime dt = null;
+        DateTime date = null;
+        DateTime time = null;
+        DateTime defaultDt;
+
+        Matcher matchTimeZone =
+                Pattern.compile(REGEXP_XML_TIMEZONE).matcher(dateTime);
+
+        if (matchTimeZone.find()) {
+            String timeZoneString = matchTimeZone.group(1);
+            defaultDt = new DateTime(0, DateTimeZone.forID(timeZoneString));
+        } else {
+            defaultDt = new DateTime(0, DateTimeZone.UTC);
+        }
+
+        Matcher matchTime = Pattern.compile(REGEXP_XML_TIME).matcher(dateTime);
+
+        Matcher match = Pattern.compile(REGEXP_XML_DATE).matcher(dateTime);
+
+        if (match.find()) {
+            int year = Integer.parseInt(match.group(ONE));
+            int month = Integer.parseInt(match.group(TWO));
+            int day = Integer.parseInt(match.group(THREE));
+
+            date = new DateTime(
+                    year,
+                    month,
+                    day,
+                    defaultDt.getHourOfDay(),
+                    defaultDt.getMinuteOfHour(),
+                    defaultDt.getSecondOfMinute(),
+                    defaultDt.getZone());
+        } else {
+            date = new DateTime(defaultDt);
+        }
+
+
+        if (matchTime.find()) {
+            int hour = Integer.parseInt(matchTime.group(TWO));
+            int minute = Integer.parseInt(matchTime.group(THREE));
+            int second = Integer.parseInt(matchTime.group(FOUR));
+            String millisString = matchTime.group(FIVE);
+            int millis;
+            if (millisString != null) {
+                millis = Integer.parseInt(millisString.substring(ONE));
+            } else {
+                millis = 0;
+            }
+
+            time = new DateTime(
+                    defaultDt.getYear(),
+                    defaultDt.getMonthOfYear(),
+                    defaultDt.getDayOfMonth(),
+                    hour,
+                    minute,
+                    second,
+                    millis,
+                    defaultDt.getZone());
+        } else {
+            time = new DateTime(defaultDt);
+        }
+
+        dt = DateUtils.merge(date, time);
+        return dt;
+    }
+
+    /**
+     * Merge two DateTime reprensenting a date and a time.
+     *
+     * @param date The date
+     * @param time The time
+     *
+     * @return The merged date time
+     */
+    public static DateTime merge(
+            final DateTime date,
+            final DateTime time) {
+        return new DateTime(date.getYear(),
+                date.getMonthOfYear(),
+                date.getDayOfMonth(),
+                time.getHourOfDay(),
+                time.getMinuteOfHour(),
+                time.getSecondOfMinute(),
+                time.getMillisOfSecond(),
+                time.getZone());
+    }
+
+    /**
+     * Convert a string to a datetime thanks to the given pattern.
+     * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
+     * hh:mm")
+     * @param dateTime date string
+     * @param locale Locale
+     * @return datetime
+     */
+    public static DateTime formatPattern(
+            final String pattern,
+            final String dateTime,
+            final Locale locale) {
+        DateTime dt = null;
+
+        try {
+            dt = DateTimeFormat.forPattern(pattern)
+                    .withLocale(locale).parseDateTime(dateTime);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return dt;
+    }
+
+    /**
+     * Convert a string to a datetime thanks to the given pattern.
+     * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
+     * hh:mm")
+     * @param dateTime date string
+     * @return datetime
+     */
+    public static DateTime formatPattern(
+            final String pattern,
+            final String dateTime) {
+        return formatPattern(pattern, dateTime, Locale.getDefault());
+    }
+
+    /**
+     * Convert a string to a locale datetime thanks to the given pattern.
+     * @param pattern The datetime pattern (ex. "dd-mm-yyyy" or "yyyy-MM-dd
+     * hh:mm")
+     * @param dateTime date string
+     * @return datetime
+     */
+    public static DateTime formatLocalPattern(
+            final String pattern,
+            final String dateTime) {
+        DateTime dt = null;
+
+        try {
+            LocalDateTime tmp = DateTimeFormat.forPattern(pattern)
+                    .parseLocalDateTime(dateTime);
+            dt = DateUtils.formatLocalISOStringToDateTime(tmp.toString());
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return dt;
+    }
 }
