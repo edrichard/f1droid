@@ -28,13 +28,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * Class of pilot activity.
+ * @author edrichard.
+ */
 public class PiloteActivity extends Activity {
 
-    ArrayList<Pilote> listPilotes = new ArrayList<Pilote>();
-    PiloteAdapter adapter = null;
+    /** List of pilote. */
+    private ArrayList<Pilote> listPilotes = new ArrayList<Pilote>();
+    /** Pilote adapter. */
+    private PiloteAdapter adapter = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(final Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_pilotes);
@@ -50,13 +56,13 @@ public class PiloteActivity extends Activity {
 
             @Override
             public void onItemClick(
-                    AdapterView<?> arg0, 
-                    View arg1, 
-                    int position,
-                    long arg3) {
+                    final AdapterView<?> arg0,
+                    final View arg1,
+                    final int position,
+                    final long arg3) {
                 Pilote p = pilotes.get(position);
 
-                Intent intent = new Intent(PiloteActivity.this, 
+                Intent intent = new Intent(PiloteActivity.this,
                         DetailsPiloteActivity.class);
 
                 Bundle b = new Bundle();
@@ -72,16 +78,21 @@ public class PiloteActivity extends Activity {
         new LoadWebServicePilotF1(this).execute();
     }
 
+    /**
+     * AsyncTask of LoadWebServicePilotF1.
+     * @author edrichard.
+     */
     private class LoadWebServicePilotF1 extends AsyncTask<Void, Void, String> {
+        /** Context of application. */
         private Context ctx;
 
         /**
          * Constructor LoadWebServiceF1.
-         * @param ctx
+         * @param ct : Context of application.
          */
-        public LoadWebServicePilotF1(Context ctx) {
+        public LoadWebServicePilotF1(final Context ct) {
             super();
-            this.ctx = ctx;
+            this.ctx = ct;
         }
 
         /* (non-Javadoc)
@@ -96,19 +107,19 @@ public class PiloteActivity extends Activity {
          * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
          */
         @Override
-        protected String doInBackground(Void... params) {
+        protected final String doInBackground(final Void... params) {
             String jsonResult = Parser.downloadJSON(ctx.getString(
                     R.string.ws_pilote_realease));
 
-            ApplicationSQLiteOpenHelper helper = 
+            ApplicationSQLiteOpenHelper helper =
                     ApplicationSQLiteOpenHelper.connexionDataBase(ctx);
             DAOPilote daoPilote = new DAOPilote(helper.getWritableDatabase());
 
             try {
                 JSONObject root = new JSONObject(jsonResult);
-                JSONObject MRData = root.getJSONObject("MRData");
-                JSONObject DriverTable = MRData.getJSONObject("DriverTable");
-                JSONArray drivers = DriverTable.getJSONArray("Drivers");
+                JSONObject mrData = root.getJSONObject("MRData");
+                JSONObject driverTable = mrData.getJSONObject("DriverTable");
+                JSONArray drivers = driverTable.getJSONArray("Drivers");
 
                 for (int i = 0; i < drivers.length(); i++) {
                     JSONObject driver = (JSONObject) drivers.get(i);
@@ -131,8 +142,9 @@ public class PiloteActivity extends Activity {
 
                     listPilotes.add(p);
 
-                    Boolean idPiloteExist = daoPilote.getPiloteExist(driverId);
-                    if(idPiloteExist != true) {
+                    Boolean idPiloteExist =
+                            daoPilote.getPiloteExist(driverId);
+                    if (idPiloteExist.equals(false)) {
                         daoPilote.addPilote(p, ctx);
                     }
                 }
@@ -151,52 +163,64 @@ public class PiloteActivity extends Activity {
          * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
          */
         @Override
-        protected void onPostExecute(String result) {
+        protected final void onPostExecute(final String result) {
             super.onPostExecute(result);
 
-            ApplicationSQLiteOpenHelper helper = 
+            ApplicationSQLiteOpenHelper helper =
                     ApplicationSQLiteOpenHelper.connexionDataBase(ctx);
 
-            DAOPilote daoPilote = new DAOPilote(helper.getWritableDatabase());
+            DAOPilote daoPilote =
+                    new DAOPilote(helper.getWritableDatabase());
             ArrayList<Pilote> allPilote = daoPilote.getAllPilote();
 
             adapter.clear();
             adapter.addAll(allPilote);
             adapter.notifyDataSetChanged();
 
-            if(result != null) {
-                Toast.makeText(this.ctx, 
-                        "Chargement...", 
+            if (result != null) {
+                Toast.makeText(this.ctx,
+                        "Chargement...",
                         Toast.LENGTH_LONG).show();
             }
         }
     }
 
+    /**
+     * Class of pilote adapter.
+     * @author edrichard.
+     */
     public class PiloteAdapter extends ArrayAdapter<Pilote> {
-        int res;
+        /** Resource of application. */
+        private int res;
 
+        /**
+         * Constructor.
+         * @param context of application.
+         * @param resource of application.
+         * @param items of list view.
+         */
         public PiloteAdapter(
-                Context context,
-                int resource,
-                List<Pilote> items) {
+                final Context context,
+                final int resource,
+                final List<Pilote> items) {
             super(context, resource, items);
             this.res = resource;
         }
 
         @Override
-        public View getView(
-                int position,
-                View convertView,
-                ViewGroup parent) {
+        public final View getView(
+                final int position,
+                final View convertView,
+                final ViewGroup parent) {
             Pilote item = this.getItem(position);
 
             LayoutInflater inf = LayoutInflater.from(getContext());
             View v = inf.inflate(this.res, null);
 
-            TextView tv_fn = (TextView) v.findViewById(R.id.row_tv_fn);
-            tv_fn.setText(item.getGivenName() + " " + item.getFamilyName());
-            TextView tv_ln = (TextView) v.findViewById(R.id.row_tv_ln);
-            tv_ln.setText(item.getNationality());
+            TextView tvFn = (TextView) v.findViewById(R.id.row_tv_fn);
+            tvFn.setText(item.getGivenName() + " " + item.getFamilyName());
+            TextView tvLn = (TextView) v.findViewById(R.id.row_tv_ln);
+            tvLn.setText(item.getNationality());
 
             return v;
         }
