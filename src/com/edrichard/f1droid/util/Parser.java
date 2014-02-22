@@ -8,13 +8,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Parser {
+/**
+ * Class util : Parser.
+ * @author edrichard.
+ */
+public final class Parser {
+
+    /**
+     * Constructor.
+     */
+    private Parser() {
+        super();
+    }
 
     /**
      * Download JSON by WS.
-     * @return result
+     * @param flux is JSON on WS
+     * @return result of string
      */
-    public static String downloadJSON(String flux) {
+    public static String downloadJSON(final String flux) {
         String result = null;
         HttpURLConnection urlConnexion = null;
 
@@ -26,7 +38,7 @@ public class Parser {
                     urlConnexion.getInputStream());
             result = readStream(in);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.getMessage();
         } finally {
             urlConnexion.disconnect();
         }
@@ -36,17 +48,19 @@ public class Parser {
 
     /**
      * readStream function.
-     * @param is
-     * @return
-     * @throws IOException
+     * @param is stream
+     * @return buffer
+     * @throws IOException exception
      */
-    private static String readStream(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();  
-        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);  
-        for (String line = r.readLine(); line != null; line =r.readLine()){  
-            sb.append(line);  
-        }  
-        is.close();  
+    private static String readStream(final InputStream is) throws IOException {
+        final int stream = 1000;
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r =
+                new BufferedReader(new InputStreamReader(is), stream);
+        for (String line = r.readLine(); line != null; line = r.readLine()) {
+            sb.append(line);
+        }
+        is.close();
         return sb.toString();
     }
 }
