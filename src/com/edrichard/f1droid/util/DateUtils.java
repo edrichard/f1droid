@@ -31,6 +31,7 @@ import android.util.Log;
 public class DateUtils extends android.text.format.DateUtils {
     /** TAG for debug purpose. */
     private static final String TAG = "DateUtils";
+
     /** TAG int one. */
     private static final int ONE = 1;
     /** TAG int two. */
