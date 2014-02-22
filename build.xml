@@ -11,6 +11,10 @@
         <pathelement location="${path.compile}" />
         <pathelement location="libs/junit-4.11.jar" />
         <pathelement location="libs/hamcrest-core-1.3.jar" />
+        <pathelement location="libs/android.jar" />
+        <pathelement location="libs/joda-time-2.3.jar" />
+        <pathelement location="libs/joda-time-2.3-javadoc.jar" />
+        <pathelement location="android-support-v4.jar" />
     </path>
     
     <!-- CLEAN -->
@@ -24,24 +28,10 @@
     <target name="doc" description="Generate JavaDoc documentation" >
         <xmlproperty collapseAttributes="true" file="AndroidManifest.xml" prefix="tm" />
         <mkdir dir="${path.docummentation}" />
-        <javadoc
-            access="private"
-            author="true"
-            classpath="libs/android.jar"
-            destdir="${path.docummentation}"
-            linkoffline="http://d.android.com/reference ${sdk.dir}/docs/reference"
-            linksource="true"
-            sourcepath="${path.source}"
-            use="true"
-            version="true">
+        <javadoc sourcepath="${path.source}" destdir="${path.docummentation}">
                 <classpath refid="classpath.test" />
         </javadoc>
-        <!-- <jar
-	        basedir="${docs.dir}"
-	        compress="${jar.compress}"
-	        jarfile="${bin.dir}/${tm.manifest.package}_${tm.manifest.android:versionName}_javadoc.jar" /> -->
     </target>
-    
     
     <!-- <target name="doc" description="create docummentation">
         <mkdir dir="${path.docummentation}" />
