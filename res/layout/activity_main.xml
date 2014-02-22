@@ -8,28 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <Button
         android:id="@+id/btnLesCircuits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="22dp"
-        android:text="@string/lesCircuits"
-		android:drawableLeft="@drawable/circuit" />
+        android:layout_alignLeft="@+id/btnLesPilotes"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="108dp"
+        android:drawableLeft="@drawable/circuit"
+        android:text="@string/lesCircuits" />
 
     <Button
         android:id="@+id/btnLesPilotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnLesCircuits"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/btnLesCircuits"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
         android:drawableLeft="@drawable/wheel"
         android:text="@string/lesPilotes" />
 
