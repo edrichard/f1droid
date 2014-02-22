@@ -2,152 +2,174 @@ package com.edrichard.f1droid.model;
 
 import java.io.Serializable;
 
+/**
+ * Class Circuit.
+ * @author edrichard.
+ */
 public class Circuit implements Serializable {
 
-	/** Serialize id */
-	private static final long serialVersionUID = -7008467969647078905L;
-	/** Circuit id */
-	private String id;
-	/** Circuit name */
-	private String name;
-	/** Circuit longitude */
-	private double longitude;
-	/** Circuit latitude */
-	private double latitude;
-	/** Circuit locacity */
-	private String locacity;
-	/** Circuit country */
-	private String country;
-	/**Circuit URL */
-	private String url; 
-	
-	public Circuit() {
-		// TODO Auto-generated constructor stub
-	}
+    /** Serialize id. */
+    private static final long serialVersionUID = -7008467969647078905L;
+    /** Circuit id. */
+    private String id;
+    /** Circuit name. */
+    private String name;
+    /** Circuit longitude. */
+    private double longitude;
+    /** Circuit latitude. */
+    private double latitude;
+    /** Circuit locacity. */
+    private String locacity;
+    /** Circuit country. */
+    private String country;
+    /**Circuit URL. */
+    private String url;
 
-	public Circuit(String id, String name, Double longitude, Double latitude,
-			String locacity, String country, String url) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.locacity = locacity;
-		this.country = country;
-		this.url = url;
-		
-	}
+    /**
+     * Constructor is empty.
+     */
+    public Circuit() {
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * Get id Circuit.
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * Constructor.
+     * @param idCircuit of circuit.
+     * @param nameCircuit of circuit.
+     * @param longitudeCircuit of circuit.
+     * @param latitudeCircuit of circuit.
+     * @param locacityCircuit of circuit.
+     * @param countryCircuit of circuit.
+     * @param urlCircuit of circuit.
+     */
+    public Circuit(
+            final String idCircuit,
+            final String nameCircuit,
+            final Double longitudeCircuit,
+            final Double latitudeCircuit,
+            final String locacityCircuit,
+            final String countryCircuit,
+            final String urlCircuit) {
+        super();
+        this.id = idCircuit;
+        this.name = nameCircuit;
+        this.longitude = longitudeCircuit;
+        this.latitude = latitudeCircuit;
+        this.locacity = locacityCircuit;
+        this.country = countryCircuit;
+        this.url = urlCircuit;
 
-	/**
-	 * Set id Circuit.
-	 * @param circuitId the id to set
-	 */
-	public void setId(String circuitId) {
-		this.id = circuitId;
-	}
+    }
 
-	/**
-	 * Get name Circuit.
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Get id Circuit.
+     * @return the id
+     */
+    public final String getId() {
+        return id;
+    }
 
-	/**
-	 * Set name Circuit.
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Set id Circuit.
+     * @param circuitId the id to set
+     */
+    public final void setId(final String circuitId) {
+        this.id = circuitId;
+    }
 
-	/**
-	 * Get longitude Circuit.
-	 * @return the longitude
-	 */
-	public double getLongitude() {
-		return longitude;
-	}
+    /**
+     * Get name Circuit.
+     * @return the name
+     */
+    public final String getName() {
+        return name;
+    }
 
-	/**
-	 * Set longitude Circuit.
-	 * @param longitude the longitude to set
-	 */
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
+    /**
+     * Set name Circuit.
+     * @param nameCircuit the name to set
+     */
+    public final void setName(final String nameCircuit) {
+        this.name = nameCircuit;
+    }
 
-	/**
-	 * Get latitude Circuit.
-	 * @return the latitude
-	 */
-	public double getLatitude() {
-		return latitude;
-	}
+    /**
+     * Get longitude Circuit.
+     * @return the longitude
+     */
+    public final double getLongitude() {
+        return longitude;
+    }
 
-	/**
-	 * Set latitude Circuit.
-	 * @param lat the latitude to set
-	 */
-	public void setLatitude(double lat) {
-		this.latitude = lat;
-	}
+    /**
+     * Set longitude Circuit.
+     * @param longitudeCircuit the longitude to set
+     */
+    public final void setLongitude(final double longitudeCircuit) {
+        this.longitude = longitudeCircuit;
+    }
 
-	/**
-	 * Get locacity Circuit.
-	 * @return the locacity
-	 */
-	public String getLocacity() {
-		return locacity;
-	}
+    /**
+     * Get latitude Circuit.
+     * @return the latitude
+     */
+    public final double getLatitude() {
+        return latitude;
+    }
 
-	/**
-	 * Set locacity Circuit.
-	 * @param locacity the locacity to set
-	 */
-	public void setLocacity(String locacity) {
-		this.locacity = locacity;
-	}
+    /**
+     * Set latitude Circuit.
+     * @param latCircuit the latitude to set
+     */
+    public final void setLatitude(final double latCircuit) {
+        this.latitude = latCircuit;
+    }
 
-	/**
-	 * Get country Circuit.
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
-	}
+    /**
+     * Get locacity Circuit.
+     * @return the locacity
+     */
+    public final String getLocacity() {
+        return locacity;
+    }
 
-	/**
-	 * Set country Circuit.
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    /**
+     * Set locacity Circuit.
+     * @param locacityCircuit the locacity to set
+     */
+    public final void setLocacity(final String locacityCircuit) {
+        this.locacity = locacityCircuit;
+    }
 
-	/**
-	 * Get url Circuit.
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * Get country Circuit.
+     * @return the country
+     */
+    public final String getCountry() {
+        return country;
+    }
 
-	/**
-	 * Set url Circuit.
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    /**
+     * Set country Circuit.
+     * @param countryCircuit the country to set
+     */
+    public final void setCountry(final String countryCircuit) {
+        this.country = countryCircuit;
+    }
 
+    /**
+     * Get url Circuit.
+     * @return the url
+     */
+    public final String getUrl() {
+        return url;
+    }
+
+    /**
+     * Set url Circuit.
+     * @param urlCircuit the url to set
+     */
+    public final void setUrl(final String urlCircuit) {
+        this.url = urlCircuit;
+    }
 }
