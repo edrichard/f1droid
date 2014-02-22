@@ -19,7 +19,6 @@
     
     <!-- CLEAN -->
     <target name="clean" description="Remove intermediate files">
-        <delete dir="${path.compile}" />
         <delete dir="${path.docummentation}" />
         <delete dir="${path.report}" />
     </target>
@@ -32,13 +31,6 @@
                 <classpath refid="classpath.test" />
         </javadoc>
     </target>
-    
-    <!-- <target name="doc" description="create docummentation">
-        <mkdir dir="${path.docummentation}" />
-        <javadoc sourcepath="${path.source}" destdir="${path.docummentation}">
-            <classpath refid="classpath.test" />
-        </javadoc>
-    </target> -->
     
     <!-- PMD -->
     <path id="pmd.classpath">
