@@ -91,5 +91,4 @@ public class DetailCircuitActivity extends Activity {
             }
         });
     }
-
 }
