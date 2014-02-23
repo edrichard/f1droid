@@ -11,13 +11,23 @@
         android:layout_height="wrap_content"
         android:src="@drawable/splash" />
 
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_marginBottom="32dp" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/progressBar1"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/chargement"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/withe" />
