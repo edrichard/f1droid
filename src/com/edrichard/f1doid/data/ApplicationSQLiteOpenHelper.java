@@ -13,7 +13,9 @@ public class ApplicationSQLiteOpenHelper extends SQLiteOpenHelper {
 
     /** Name of database. */
     public static final String DATABASE_F1DROID = "DATABASEF1DROID";
-
+    /** Name of database. */
+    public static final Integer VERSION_DB = 1;
+    
     /**
      * Constructor.
      * @param context of the application.
@@ -29,6 +31,15 @@ public class ApplicationSQLiteOpenHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
         // TODO Auto-generated constructor stub
     }
+    
+    /**
+     * Constructor.
+     * @param context of application.
+     */
+    public ApplicationSQLiteOpenHelper(final Context context) {
+        super(context, DATABASE_F1DROID, null, VERSION_DB);
+        // TODO Auto-generated constructor stub
+    }
 
     /**
      * Connection data base.
@@ -41,7 +52,7 @@ public class ApplicationSQLiteOpenHelper extends SQLiteOpenHelper {
                 ctx,
                 ApplicationSQLiteOpenHelper.DATABASE_F1DROID,
                 null,
-                1);
+                VERSION_DB);
         return helper;
     }
 
