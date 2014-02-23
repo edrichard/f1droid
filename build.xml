@@ -63,20 +63,9 @@
             <formatter type="xml" toFile="${path.report}/checkstyle_errors.xml" />
         </checkstyle>
     </target>
-
-    <target name="test" description="Playing the test">
-        <mkdir dir="${path.test}" />
-        <junit printsummary="yes" fork="yes" haltonerror="no" haltonfailure="no">
-            <classpath refid="classpath.test" />
-            <formatter type="xml" />
-            <batchtest fork="yes" todir="${path.test}">
-                <fileset dir="${path.source}">
-                    <include name="**/Test*.java" />
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
     
-    <target name="all" depends="clean, pmd, checkstyle, doc" />
+    <!-- COMPILE -->
+    
+    <target name="all" depends="clean, pmd, checkstyle, doc, compile" />
 
 </project>
