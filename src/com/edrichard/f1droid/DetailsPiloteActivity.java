@@ -8,7 +8,12 @@ import com.edrichard.f1droid.model.Pilote;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -18,24 +23,41 @@ import android.widget.TextView;
 @SuppressLint("SimpleDateFormat")
 public class DetailsPiloteActivity extends Activity {
 
+    /**
+     * De-serialize object pilote.
+     * @return pilote object.
+     */
+    private Pilote getPiloteSerialize() {
+        Pilote pilote = (Pilote)
+                this.getIntent().getExtras().getSerializable("MON_PILOTE");
+        return pilote;
+    }
+    
     @Override
     protected final void onCreate(final Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_details_pilote);
 
-        Pilote pilote = (Pilote)
-                this.getIntent().getExtras().getSerializable("MON_PILOTE");
-
+        this.initFichePilote();
+        this.initButtonWiki();
+    }
+    
+    /**
+     * Initilisation of detail of pilote.
+     */
+    public final void initFichePilote() {
         TextView lnFnPilote = (TextView) this.findViewById(R.id.lnFnPilote);
         lnFnPilote.setText(
-                pilote.getFamilyName() + " " + pilote.getGivenName());
+                getPiloteSerialize().getFamilyName()
+                + " " + getPiloteSerialize().getGivenName());
 
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Date date = null;
         try {
-            date = format.parse(pilote.getDateOfBirth().toString());
+            date = format.parse(
+                    getPiloteSerialize().getDateOfBirth().toString());
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -50,7 +72,26 @@ public class DetailsPiloteActivity extends Activity {
 
         TextView nationalityPilote =
                 (TextView) this.findViewById(R.id.nationalityPilote);
-        nationalityPilote.setText(pilote.getNationality());
+        nationalityPilote.setText(getPiloteSerialize().getNationality());
     }
 
+    /**
+     * Initialisation of bouton wikipedia bouton of pilote.
+     */
+    public final void initButtonWiki() {
+        Button btWikiPilote = (Button) findViewById(R.id.btWikiPilote);
+        btWikiPilote.setText(this.getString(R.string.btWikiPilote)
+                + " : " + getPiloteSerialize().getFamilyName()
+                + " " + getPiloteSerialize().getGivenName());;
+
+                btWikiPilote.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(getPiloteSerialize().getUrl()));
+                startActivity(browserIntent);
+            }
+        });
+    }
 }

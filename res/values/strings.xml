@@ -21,4 +21,6 @@
     <string name="rowFirst">Nom circuit</string>
     <string name="rowSecond">Pays</string>
     
+    <string name="btWikiPilote">Détails pilote</string>
+    
 </resources>
