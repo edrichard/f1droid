@@ -66,6 +66,6 @@
     
     <!-- COMPILE -->
     
-    <target name="all" depends="clean, pmd, checkstyle, doc, compile" />
+    <target name="all" depends="clean, pmd, checkstyle, doc" />
 
 </project>
