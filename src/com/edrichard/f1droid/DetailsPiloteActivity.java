@@ -32,7 +32,7 @@ public class DetailsPiloteActivity extends Activity {
                 this.getIntent().getExtras().getSerializable("MON_PILOTE");
         return pilote;
     }
-    
+
     @Override
     protected final void onCreate(final Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -42,7 +42,7 @@ public class DetailsPiloteActivity extends Activity {
         this.initFichePilote();
         this.initButtonWiki();
     }
-    
+
     /**
      * Initilisation of detail of pilote.
      */
@@ -82,7 +82,7 @@ public class DetailsPiloteActivity extends Activity {
         Button btWikiPilote = (Button) findViewById(R.id.btWikiPilote);
         btWikiPilote.setText(this.getString(R.string.btWikiPilote)
                 + " : " + getPiloteSerialize().getFamilyName()
-                + " " + getPiloteSerialize().getGivenName());;
+                + " " + getPiloteSerialize().getGivenName());
 
                 btWikiPilote.setOnClickListener(new OnClickListener() {
 
