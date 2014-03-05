@@ -5,13 +5,35 @@
     android:background="@color/black"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/lnFnPilote"
+    <Button
+        android:id="@+id/btWikiPilote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/drapeauPilote"
+        android:layout_marginTop="20dp"
+        android:height="100dp"
+        android:text="@string/btWikiPilote"
+        android:textColor="@color/withe" />
+
+    <ImageView
+        android:id="@+id/drapeauPilote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/common_signin_btn_icon_pressed_dark" />
+
+    <TextView
+        android:id="@+id/lnFnPilote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/drapeauPilote"
         android:text="@string/lnFnPilote"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/withe" />
@@ -20,34 +42,10 @@
         android:id="@+id/dateOfBirthPilote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/lnFnPilote"
         android:layout_below="@+id/lnFnPilote"
-        android:paddingLeft="10dp"
         android:text="@string/dateOfBirthPilote"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/withe" />
-
-    <TextView
-        android:id="@+id/nationalityPilote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/dateOfBirthPilote"
-        android:paddingLeft="10dp"
-        android:text="@string/nationalityPilote"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/withe" />
-
-    <Button
-        android:id="@+id/btWikiPilote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/nationalityPilote"
-        android:layout_marginTop="20dp"
-        android:height="100dp"
-        android:textColor="@color/withe"
-        android:text="@string/btWikiPilote" />
 
 </RelativeLayout>

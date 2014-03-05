@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.edrichard.f1droid.model.Pilote;
+import com.koushikdutta.ion.Ion;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -40,6 +42,7 @@ public class DetailsPiloteActivity extends Activity {
         this.setContentView(R.layout.activity_details_pilote);
 
         this.initFichePilote();
+        this.initFlagPilot();
         this.initButtonWiki();
     }
 
@@ -69,10 +72,6 @@ public class DetailsPiloteActivity extends Activity {
         TextView dateOfBirthPilote =
                 (TextView) this.findViewById(R.id.dateOfBirthPilote);
         dateOfBirthPilote.setText(mydateString);
-
-        TextView nationalityPilote =
-                (TextView) this.findViewById(R.id.nationalityPilote);
-        nationalityPilote.setText(getPiloteSerialize().getNationality());
     }
 
     /**
@@ -94,4 +93,22 @@ public class DetailsPiloteActivity extends Activity {
             }
         });
     }
+    
+    /**
+     * 
+     */
+    public final void initFlagPilot() {
+        String natinality = getPiloteSerialize().getNationality();
+        String recup = natinality.substring(0,2).toLowerCase();
+        
+        String urlWS =
+                getApplicationContext().getString(R.string.ws_country_flag_realease)
+                + recup
+                + getApplicationContext().getString(R.string.formatImage);
+
+        ImageView gif = (ImageView) findViewById(R.id.drapeauPilote);
+        Ion.with(gif).load(urlWS);
+    }
+    
+    
 }
